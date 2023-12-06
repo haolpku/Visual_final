@@ -1,1 +1,5 @@
 # Visual_final
+
+这个是北京大学2023秋季可视化大作业
+
+My_code是用Python进行数据可视化
