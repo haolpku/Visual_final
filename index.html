@@ -1,0 +1,361 @@
+<!DOCTYPE html>
+<html style="height: 100%">
+<head>
+    <meta charset="UTF-8">
+    <title>Visualization Charts</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f0f0f0;
+            color: #333;
+            text-align: center;
+        }
+
+        .header {
+            background-color: #4CAF50;
+            color: white;
+            padding: 10px 0;
+            font-size: 24px;
+            font-weight: bold;
+        }
+        .footer {
+            margin-top: 20px;
+            padding: 15px 0;
+            background-color: #333; /* 暗色背景 */
+            color: #fff; /* 白色字体 */
+            font-size: 18px; /* 字体大小 */
+            font-weight: normal; /* 字体重量 */
+            text-align: center; /* 文本居中 */
+            border-top: 3px solid #4CAF50; /* 上边框 */
+            border-bottom: 3px solid #4CAF50; /* 下边框 */
+            border-radius: 5px; /* 边框圆角 */
+        }
+        .chart-container {
+            margin: 20px auto;
+            padding: 15px;
+            background: #ffffff;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            width: 80%;
+            height: auto; /* 根据内容调整高度 */
+        }
+
+        .chart {
+            width: 100%;
+            height: 500px; /* 设置每个图表的高度 */
+        }
+    </style>
+    <script src="https://cdn.jsdelivr.net/npm/echarts@latest/dist/echarts.min.js"></script>
+</head>
+<body style="height: 100%; margin: 0">
+<div class="header">Visualization Charts</div>
+<div class="chart-container">
+    <div id="main_bar" class="chart"></div>
+    <div id="barChart" ></div>
+    <div id="main_line" class="chart"></div>
+    <div id="main_pie" class="chart"></div>
+</div>
+<div class="footer">数据可视化大作业-梁昊</div>
+<script type="text/javascript">
+    var myChart = echarts.init(document.getElementById('main_bar'));
+    var barChart = echarts.init(document.getElementById('barChart'));
+    var line_Chart_main = echarts.init(document.getElementById('main_line'));
+    var data = {
+        "1993": [["programs", 2], ["dynamic", 1], ["backtracking", 1], ["market", 1], ["oriented", 1], ["programming", 1], ["environment", 1], ["application", 1], ["distributed", 1], ["multicommodity", 1], ["flow", 1], ["problems", 1], ["empirical", 1], ["analysis", 1], ["search", 1], ["gsat", 1], ["difficulties", 1], ["learning", 1], ["logic", 1], ["cut", 1]], 
+        "1994": [["learning", 5], ["decision", 3], ["pattern", 2], ["models", 2], ["description", 2], ["domain", 2], ["induction", 2], ["algorithm", 2], ["discourse", 2], ["information", 2], ["extraction", 2], ["planning", 2], ["order", 2], ["past", 1], ["tense", 1], ["english", 1], ["verbs", 1], ["symbolic", 1], ["associator", 1], ["vs", 1]], 
+        "1995": [["learning", 7], ["decision", 3], ["induction", 3], ["reasoning", 3], ["based", 3], ["domain", 2], ["evaluation", 2], ["algorithm", 2], ["approach", 2], ["using", 2], ["functional", 2], ["agents", 2], ["pac", 2], ["recursive", 2], ["logic", 2], ["programs", 2], ["efficient", 2], ["algorithms", 2], ["results", 2], ["planning", 2]], 
+        "1996": [["learning", 6], ["networks", 3], ["models", 3], ["logic", 2], ["programs", 2], ["improved", 2], ["theory", 2], ["computing", 2], ["search", 2], ["approach", 2], ["problems", 2], ["problem", 2], ["case", 2], ["study", 2], ["constraint", 2], ["satisfaction", 2], ["order", 2], ["using", 2], ["functions", 2], ["information", 2]], 
+        "1997": [["analysis", 3], ["search", 3], ["logics", 2], ["network", 2], ["planning", 2], ["partially", 2], ["preferential", 2], ["time", 2], ["easy", 2], ["uniform", 1], ["framework", 1], ["concept", 1], ["definitions", 1], ["description", 1], ["lifeworld", 1], ["query", 1], ["dags", 1], ["practical", 1], ["paradigm", 1], ["implementing", 1]], 
+        "1998": [["based", 3], ["reasoning", 3], ["learning", 2], ["theory", 2], ["computational", 2], ["conditional", 2], ["logic", 2], ["theoretic", 2], ["programming", 2], ["constraint", 2], ["synthesizing", 1], ["customized", 1], ["planners", 1], ["specifications", 1], ["cached", 1], ["sufficient", 1], ["statistics", 1], ["efficient", 1], ["machine", 1], ["large", 1]], 
+        "1999": [["combining", 5], ["lambda", 4], ["learning", 4], ["game", 4], ["tree", 4], ["search", 4], ["collective", 4], ["intelligence", 4], ["systems", 3], ["tdleaf", 2], ["temporal", 2], ["difference", 2], ["knightcap", 2], ["chess", 2], ["program", 2], ["learns", 2], ["td", 2], ["minimum", 2], ["description", 2], ["length", 2]], 
+        "2000": [["logic", 13], ["based", 11], ["programming", 9], ["reasoning", 9], ["revision", 8], ["constraint", 8], ["belief", 7], ["theory", 7], ["solving", 6], ["system", 6], ["problem", 5], ["mining", 5], ["computing", 4], ["conditional", 4], ["constraints", 4], ["programs", 4], ["set", 4], ["model", 4], ["universal", 4], ["artificial", 4]], 
+        "2001": [["based", 9], ["learning", 9], ["bounds", 6], ["knowledge", 6], ["reinforcement", 5], ["universal", 4], ["prediction", 4], ["programming", 4], ["policy", 4], ["multi", 3], ["logic", 3], ["sequences", 3], ["sequential", 3], ["conditional", 3], ["general", 2], ["loss", 2], ["sequence", 2], ["fitness", 2], ["uniform", 2], ["selection", 2]], 
+        "2002": [["logic", 17], ["learning", 15], ["knowledge", 13], ["nonmonotonic", 8], ["reasoning", 8], ["programs", 7], ["systems", 7], ["semantics", 6], ["programming", 6], ["based", 6], ["agent", 5], ["logics", 5], ["selection", 5], ["argumentation", 5], ["context", 5], ["belief", 4], ["preferred", 4], ["inference", 4], ["optimal", 4], ["action", 4]], 
+        "2003": [["based", 14], ["information", 12], ["dempster", 11], ["learning", 10], ["search", 10], ["shafer", 10], ["framework", 9], ["logic", 9], ["model", 8], ["neural", 8], ["clustering", 8], ["theory", 8], ["bayesian", 7], ["compression", 7], ["multiple", 7], ["alignment", 7], ["unification", 7], ["using", 7], ["network", 7], ["universal", 7]], 
+        "2004": [["systems", 13], ["using", 13], ["based", 11], ["learning", 10], ["information", 10], ["approach", 10], ["data", 8], ["fuzzy", 8], ["neural", 8], ["programming", 7], ["knowledge", 7], ["genetic", 7], ["evolutionary", 7], ["logic", 6], ["mining", 6], ["convergence", 6], ["networks", 6], ["artificial", 6], ["search", 6], ["concept", 5]], 
+        "2005": [["based", 15], ["learning", 13], ["data", 9], ["e", 9], ["bayesian", 8], ["logic", 7], ["models", 7], ["programming", 7], ["decision", 7], ["tree", 7], ["complexity", 6], ["classification", 6], ["analysis", 6], ["knowledge", 5], ["semantic", 5], ["network", 5], ["loss", 5], ["networks", 5], ["uncertainty", 5], ["prediction", 5]], 
+        "2006": [["based", 15], ["learning", 13], ["using", 11], ["logic", 10], ["information", 10], ["reasoning", 9], ["programming", 8], ["systems", 8], ["algorithms", 7], ["event", 7], ["prediction", 7], ["new", 6], ["constraint", 6], ["knowledge", 6], ["approach", 6], ["language", 6], ["kernel", 5], ["stochastic", 5], ["decision", 5], ["rule", 5]], 
+        "2007": [["learning", 22], ["using", 19], ["classification", 15], ["intelligence", 11], ["network", 11], ["selection", 11], ["neural", 10], ["analysis", 10], ["bayesian", 9], ["prediction", 8], ["approach", 8], ["based", 8], ["models", 8], ["clustering", 7], ["logic", 7], ["algorithmic", 7], ["information", 7], ["methods", 7], ["one", 7], ["problem", 6]], 
+        "2008": [["learning", 44], ["based", 25], ["data", 21], ["using", 19], ["multi", 19], ["models", 18], ["model", 18], ["algorithm", 17], ["classification", 17], ["clustering", 16], ["analysis", 15], ["networks", 14], ["approach", 14], ["problem", 13], ["decision", 13], ["theory", 13], ["support", 12], ["new", 11], ["random", 10], ["non", 10]], 
+        "2009": [["learning", 92], ["based", 42], ["using", 32], ["model", 25], ["data", 23], ["search", 22], ["analysis", 21], ["algorithm", 20], ["approach", 19], ["models", 19], ["time", 19], ["constraints", 18], ["multi", 18], ["constraint", 17], ["selection", 17], ["sparse", 17], ["classification", 16], ["dynamic", 16], ["bounds", 14], ["estimation", 14]], 
+        "2010": [["learning", 133], ["based", 68], ["using", 46], ["data", 43], ["models", 39], ["approach", 36], ["clustering", 35], ["algorithm", 31], ["model", 31], ["networks", 28], ["classification", 26], ["sparse", 26], ["kernel", 24], ["prediction", 24], ["detection", 23], ["systems", 23], ["selection", 22], ["method", 22], ["analysis", 22], ["multi", 21]], 
+        "2011": [["learning", 257], ["based", 92], ["models", 81], ["using", 75], ["data", 55], ["analysis", 52], ["bayesian", 49], ["algorithms", 47], ["planning", 46], ["model", 45], ["via", 43], ["efficient", 41], ["search", 40], ["multi", 40], ["sparse", 39], ["algorithm", 37], ["methods", 37], ["classification", 37], ["online", 36], ["kernel", 36]], 
+        "2012": [["learning", 631], ["bayesian", 259], ["models", 223], ["based", 189], ["using", 169], ["networks", 155], ["data", 134], ["model", 131], ["inference", 128], ["sparse", 124], ["algorithm", 115], ["gaussian", 101], ["analysis", 96], ["efficient", 96], ["via", 94], ["classification", 89], ["markov", 88], ["approach", 85], ["optimization", 84], ["multi", 84]], 
+        "2013": [["learning", 541], ["networks", 320], ["bayesian", 316], ["based", 236], ["models", 226], ["using", 202], ["data", 176], ["probabilistic", 168], ["inference", 158], ["model", 152], ["belief", 142], ["clustering", 132], ["decision", 130], ["analysis", 122], ["sparse", 121], ["reasoning", 120], ["algorithm", 119], ["approach", 116], ["multi", 105], ["classification", 102]], 
+        "2014": [["learning", 548], ["based", 199], ["models", 181], ["using", 179], ["data", 160], ["bayesian", 132], ["multi", 129], ["networks", 123], ["algorithm", 118], ["via", 117], ["model", 115], ["analysis", 113], ["clustering", 105], ["sparse", 102], ["optimization", 101], ["inference", 98], ["algorithms", 90], ["matrix", 90], ["deep", 87], ["stochastic", 81]], 
+        "2015": [["learning", 828], ["networks", 275], ["deep", 274], ["using", 246], ["data", 245], ["models", 211], ["neural", 208], ["based", 200], ["bayesian", 189], ["via", 164], ["stochastic", 157], ["optimization", 149], ["analysis", 146], ["multi", 144], ["clustering", 143], ["classification", 132], ["model", 128], ["inference", 125], ["sparse", 125], ["approach", 118]], 
+        "2016": [["learning", 1440], ["networks", 518], ["deep", 473], ["data", 437], ["neural", 408], ["using", 398], ["based", 357], ["models", 311], ["via", 229], ["bayesian", 225], ["optimization", 223], ["multi", 216], ["classification", 211], ["analysis", 190], ["reinforcement", 189], ["model", 184], ["approach", 172], ["machine", 171], ["inference", 171], ["clustering", 167]], 
+        "2017": [["learning", 2459], ["deep", 1064], ["networks", 1000], ["neural", 881], ["using", 560], ["based", 551], ["data", 541], ["models", 466], ["reinforcement", 397], ["network", 388], ["multi", 386], ["via", 380], ["model", 322], ["optimization", 316], ["adversarial", 310], ["classification", 294], ["machine", 288], ["stochastic", 272], ["analysis", 266], ["generative", 262]], 
+        "2018": [["learning", 5063], ["deep", 2237], ["networks", 1987], ["neural", 1924], ["using", 1169], ["based", 1120], ["data", 1027], ["reinforcement", 945], ["models", 810], ["adversarial", 796], ["network", 777], ["model", 746], ["multi", 740], ["via", 724], ["optimization", 586], ["machine", 578], ["classification", 564], ["prediction", 531], ["graph", 508], ["gradient", 502]], 
+        "2019": [["learning", 7620], ["neural", 2965], ["deep", 2925], ["networks", 2801], ["based", 1737], ["using", 1677], ["reinforcement", 1643], ["data", 1562], ["multi", 1210], ["via", 1190], ["graph", 1189], ["network", 1162], ["models", 1157], ["adversarial", 1116], ["model", 1075], ["classification", 908], ["machine", 895], ["optimization", 856], ["bayesian", 732], ["prediction", 710]]
+    };
+
+    // 函数，用于根据单词获取历年排名
+    function getRankings(word) {
+        var rankings = [];
+        for (var year in data) {
+            var rank = data[year].findIndex(function (item) {
+                return item[0] === word;
+            }) + 1; // 索引从0开始，因此加1
+            rankings.push({ year: year, rank: rank === 0 ? '21' : rank });
+        }
+        return rankings;
+    }
+
+    var baseOption = {
+        timeline: {
+            axisType: 'category',
+            autoPlay: false,
+            data: Object.keys(data)
+        },
+        title: {
+            text: 'Arxiv题目用词的数量'
+        },
+        tooltip: {},
+        legend: {
+            data: ['word frequency']
+        },
+        xAxis: {
+            type: 'category',
+            data: [],
+            splitLine: {show: false},
+            axisLabel: {interval: 0, rotate: 45}
+        },
+        yAxis: {
+            type: 'value',
+            name: 'word frequency'
+        },
+        grid: {
+            // 调整柱状图布局，为时间轴留出空间
+            top: '20%',
+            left: '5%',
+            right: '5%',
+            bottom: '10%',
+            containLabel: true
+        },
+        series: [
+            {
+                type: 'bar',
+                data: [],
+                itemStyle: {
+                    normal: {
+                        color: '#c23531',  // 更改线条颜色
+                    },
+                    emphasis: {
+                        color: 'blue',  // 高亮时颜色变蓝
+                    }
+                },
+                lineStyle: {
+                    width: 3,  // 线条宽度
+                    type: 'dashed'  // 线条类型
+                },
+                smooth: true,  // 平滑曲线
+            }
+        ]
+    };
+
+    var options = [];
+    for (var year in data) {
+        options.push({
+            xAxis: {
+                data: data[year].map(function (item) {
+                    return item[0];
+                })
+            },
+            series: [
+                {
+                    data: data[year].map(function (item) {
+                        return item[1];
+                    })
+                }
+            ]
+        });
+    }
+
+    myChart.setOption({ baseOption: baseOption, options: options });
+
+    // 折线图的基本设置
+    var lineOption = {
+        title: {
+            text: '每年发表论文的数量'
+        },
+        tooltip: {},
+        xAxis: {
+            type: 'category',
+            data: []
+        },
+        yAxis: {
+            type: 'value',
+            name: 'ranking',
+            inverse: true, // 排名越低，越靠近顶部
+            max: 21,
+            axisLabel: {
+                formatter: function (value) {
+                    return value === 21 ? '>20' : value;
+                }
+            }
+        },
+        grid: {
+            // 调整折线图布局，为时间轴留出空间
+            top: '20%',
+            left: '5%',
+            right: '5%',
+            bottom: '10%',
+            containLabel: true
+        },
+
+        series: [{
+            data: [],
+            type: 'line',
+            itemStyle: {
+                normal: {
+                    color: '#61a0a8',  // 更改线条颜色
+                }
+            },
+            lineStyle: {
+                width: 2,
+                type: 'solid'  // 实线类型
+            },
+            smooth: true,  // 平滑曲线
+        }]
+    };
+
+    // 监听柱状图的点击事件
+    myChart.on('click', function (params) {
+        if (params.componentType === 'series') {
+            var word = params.name;
+            var rankings = getRankings(word);
+            lineOption.title.text = 'The annual ranking of the word "' + word + '"'; // 更新折线图标题
+            lineOption.xAxis.data = rankings.map(function (item) { return item.year; });
+            lineOption.series[0].data = rankings.map(function (item) { return item.rank; });
+            barChart.setOption(lineOption, true); // 确保更新折线图
+        }
+    });
+
+    var years = [1993, 1994, 1995, 1996, 1997, 1998, 1999, 2000, 2001, 2002, 2003, 2004, 2005, 2006, 2007, 2008, 2009, 2010, 2011, 2012, 2013, 2014, 2015, 2016, 2017, 2018, 2019];
+    var data = [7, 16, 25, 29, 19, 18, 25, 90, 48, 120, 107, 133, 132, 157, 189, 317, 531, 742, 1194, 2756, 3297, 2724, 3604, 5339, 8073, 15551, 23080];
+
+        var option = {
+            title: {
+                text: '每年发表不同类别论文的数量及比例'
+            },
+            tooltip: {
+                trigger: 'axis'
+            },
+            xAxis: {
+                type: 'category',
+                boundaryGap: false,
+                data: years
+            },
+            yAxis: {
+                type: 'value'
+            },
+            dataZoom: [
+                {
+                    type: 'slider',
+                    start: 0,
+                    end: 100
+                },
+                {
+                    type: 'inside',
+                    start: 0,
+                    end: 100
+                }
+            ],
+            series: [{
+                name: 'Data',
+                type: 'line',
+                smooth: false,
+                data: data
+            }]
+        };
+
+    line_Chart_main.setOption(option);
+    
+    var areaChart = echarts.init(document.getElementById('main_pie'));
+            // 示例数据
+            var paperData = {'1993': {'cs.AI': 7, 'cs.LG': 0, 'stat.ML': 0},
+                            '1994': {'cs.AI': 16, 'cs.LG': 0, 'stat.ML': 0},
+                            '1995': {'cs.AI': 25, 'cs.LG': 0, 'stat.ML': 0},
+                            '1996': {'cs.AI': 29, 'cs.LG': 0, 'stat.ML': 0},
+                            '1997': {'cs.AI': 19, 'cs.LG': 0, 'stat.ML': 0},
+                            '1998': {'cs.AI': 16, 'cs.LG': 2, 'stat.ML': 0},
+                            '1999': {'cs.AI': 11, 'cs.LG': 14, 'stat.ML': 0},
+                            '2000': {'cs.AI': 75, 'cs.LG': 15, 'stat.ML': 0},
+                            '2001': {'cs.AI': 35, 'cs.LG': 13, 'stat.ML': 0},
+                            '2002': {'cs.AI': 85, 'cs.LG': 35, 'stat.ML': 0},
+                            '2003': {'cs.AI': 90, 'cs.LG': 17, 'stat.ML': 0},
+                            '2004': {'cs.AI': 108, 'cs.LG': 25, 'stat.ML': 0},
+                            '2005': {'cs.AI': 82, 'cs.LG': 50, 'stat.ML': 0},
+                            '2006': {'cs.AI': 111, 'cs.LG': 46, 'stat.ML': 0},
+                            '2007': {'cs.AI': 110, 'cs.LG': 58, 'stat.ML': 21},
+                            '2008': {'cs.AI': 152, 'cs.LG': 110, 'stat.ML': 55},
+                            '2009': {'cs.AI': 249, 'cs.LG': 163, 'stat.ML': 119},
+                            '2010': {'cs.AI': 328, 'cs.LG': 248, 'stat.ML': 166},
+                            '2011': {'cs.AI': 575, 'cs.LG': 347, 'stat.ML': 272},
+                            '2012': {'cs.AI': 815, 'cs.LG': 1463, 'stat.ML': 478},
+                            '2013': {'cs.AI': 1482, 'cs.LG': 1115, 'stat.ML': 700},
+                            '2014': {'cs.AI': 726, 'cs.LG': 1100, 'stat.ML': 898},
+                            '2015': {'cs.AI': 698, 'cs.LG': 1573, 'stat.ML': 1333},
+                            '2016': {'cs.AI': 1103, 'cs.LG': 2336, 'stat.ML': 1900},
+                            '2017': {'cs.AI': 1534, 'cs.LG': 3803, 'stat.ML': 2736},
+                            '2018': {'cs.AI': 1774, 'cs.LG': 9925, 'stat.ML': 3852},
+                            '2019': {'cs.AI': 1506, 'cs.LG': 18131, 'stat.ML': 3443}};
+
+        // 提取所有年份和类型
+        var years = Object.keys(paperData);
+        var types = Object.keys(paperData[years[0]]);
+
+        // 准备每个类型的数据
+        function getTypeData(type) {
+            return years.map(function(year) {
+                return paperData[year][type];
+            });
+        }
+
+        var option = {
+            title: {
+                text: 'Dynamic Area Chart',
+                left: 'center'
+            },
+            tooltip: {
+                trigger: 'axis',
+                axisPointer: {
+                    type: 'cross',
+                    label: {
+                        backgroundColor: '#6a7985'
+                    }
+                }
+            },
+            legend: {
+                data: types,
+                bottom: 0
+            },
+            xAxis: {
+                type: 'category',
+                boundaryGap: false,
+                data: years
+            },
+            yAxis: {
+                type: 'value'
+            },
+            series: types.map(function(type) {
+                return {
+                    name: type,
+                    type: 'line',
+                    stack: 'Total', // 堆叠
+                    areaStyle: {},
+                    emphasis: {
+                        focus: 'series'
+                    },
+                    data: getTypeData(type)
+                };
+            })
+        };
+
+        areaChart.setOption(option);
+</script>
+</body>
+</html>
