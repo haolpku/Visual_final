@@ -53,18 +53,20 @@
 <div class="header">Visualization Charts</div>
 <div class="chart-container">
     <div id="main_bar" class="chart"></div>
+    <div id="barChart" class="chart"></div>
     <div id="main_bar_2" class="chart"></div>
-    <div id="barChart" ></div>
+    <div id="barChart_2" class="chart"></div>
     <div id="main_line" class="chart"></div>
     <div id="main_pie" class="chart"></div>
 </div>
 <div class="footer">数据可视化大作业-梁昊</div>
 <script type="text/javascript">
     var myChart = echarts.init(document.getElementById('main_bar'));
-    var myChart_2 = echarts.init(document.getElementById('main_bar_2'));
     var barChart = echarts.init(document.getElementById('barChart'));
+    var myChart_2 = echarts.init(document.getElementById('main_bar_2'));
+    var barChart_2 = echarts.init(document.getElementById('barChart_2'));
     var line_Chart_main = echarts.init(document.getElementById('main_line'));
-    var data = {
+    var data_1 = {
         "1993": [["programs", 2], ["dynamic", 1], ["backtracking", 1], ["market", 1], ["oriented", 1], ["programming", 1], ["environment", 1], ["application", 1], ["distributed", 1], ["multicommodity", 1], ["flow", 1], ["problems", 1], ["empirical", 1], ["analysis", 1], ["search", 1], ["gsat", 1], ["difficulties", 1], ["learning", 1], ["logic", 1], ["cut", 1]], 
         "1994": [["learning", 5], ["decision", 3], ["pattern", 2], ["models", 2], ["description", 2], ["domain", 2], ["induction", 2], ["algorithm", 2], ["discourse", 2], ["information", 2], ["extraction", 2], ["planning", 2], ["order", 2], ["past", 1], ["tense", 1], ["english", 1], ["verbs", 1], ["symbolic", 1], ["associator", 1], ["vs", 1]], 
         "1995": [["learning", 7], ["decision", 3], ["induction", 3], ["reasoning", 3], ["based", 3], ["domain", 2], ["evaluation", 2], ["algorithm", 2], ["approach", 2], ["using", 2], ["functional", 2], ["agents", 2], ["pac", 2], ["recursive", 2], ["logic", 2], ["programs", 2], ["efficient", 2], ["algorithms", 2], ["results", 2], ["planning", 2]], 
@@ -94,23 +96,11 @@
         "2019": [["learning", 7620], ["neural", 2965], ["deep", 2925], ["networks", 2801], ["based", 1737], ["using", 1677], ["reinforcement", 1643], ["data", 1562], ["multi", 1210], ["via", 1190], ["graph", 1189], ["network", 1162], ["models", 1157], ["adversarial", 1116], ["model", 1075], ["classification", 908], ["machine", 895], ["optimization", 856], ["bayesian", 732], ["prediction", 710]]
     };
 
-    // 函数，用于根据单词获取历年排名
-    function getRankings(word) {
-        var rankings = [];
-        for (var year in data) {
-            var rank = data[year].findIndex(function (item) {
-                return item[0] === word;
-            }) + 1; // 索引从0开始，因此加1
-            rankings.push({ year: year, rank: rank === 0 ? '21' : rank });
-        }
-        return rankings;
-    }
-
     var baseOption = {
         timeline: {
             axisType: 'category',
             autoPlay: false,
-            data: Object.keys(data)
+            data: Object.keys(data_1)
         },
         title: {
             text: 'Arxiv题目用词的数量'
@@ -153,22 +143,22 @@
                     width: 3,  // 线条宽度
                     type: 'dashed'  // 线条类型
                 },
-                smooth: true,  // 平滑曲线
+                smooth: false,  // 平滑曲线
             }
         ]
     };
 
     var options = [];
-    for (var year in data) {
+    for (var year in data_1) {
         options.push({
             xAxis: {
-                data: data[year].map(function (item) {
+                data: data_1[year].map(function (item) {
                     return item[0];
                 })
             },
             series: [
                 {
-                    data: data[year].map(function (item) {
+                    data: data_1[year].map(function (item) {
                         return item[1];
                     })
                 }
@@ -177,6 +167,28 @@
     }
 
     myChart.setOption({ baseOption: baseOption, options: options });
+    // 函数，用于根据单词获取历年排名
+    function getRankings(word) {
+        var rankings = [];
+        for (var year in data_1) {
+            var rank = data_1[year].findIndex(function (item) {
+                return item[0] === word;
+            }) + 1; // 索引从0开始，因此加1
+            rankings.push({ year: year, rank: rank === 0 ? '21' : rank });
+        }
+        return rankings;
+    }
+    function getRankings_2(word) {
+        var rankings = [];
+        for (var year in data_2) {
+            var rank = data_2[year].findIndex(function (item) {
+                return item[0] === word;
+            }) + 1; // 索引从0开始，因此加1
+            rankings.push({ year: year, rank: rank === 0 ? '11' : rank });
+        }
+        return rankings;
+    }
+   
     var data_2 = {
     "1993": [
         [
@@ -1312,18 +1324,8 @@
             14420
         ]
     ]
-};
-    // 函数，用于根据单词获取历年排名
-    function getRankings(word) {
-        var rankings = [];
-        for (var year in data_2) {
-            var rank = data_2[year].findIndex(function (item) {
-                return item[0] === word;
-            }) + 1; // 索引从0开始，因此加1
-            rankings.push({ year: year, rank: rank === 0 ? '21' : rank });
-        }
-        return rankings;
-    }
+    };
+
 
     var baseOption = {
         timeline: {
@@ -1372,7 +1374,7 @@
                     width: 3,  // 线条宽度
                     type: 'dashed'  // 线条类型
                 },
-                smooth: true,  // 平滑曲线
+                smooth: false,  // 平滑曲线
             }
         ]
     };
@@ -1396,6 +1398,7 @@
     }
 
     myChart_2.setOption({ baseOption: baseOption, options: options });
+ 
     // 折线图的基本设置
     var lineOption = {
         title: {
@@ -1410,6 +1413,7 @@
             type: 'value',
             name: 'ranking',
             inverse: true, // 排名越低，越靠近顶部
+            min: 1,
             max: 21,
             axisLabel: {
                 formatter: function (value) {
@@ -1438,21 +1442,80 @@
                 width: 2,
                 type: 'solid'  // 实线类型
             },
-            smooth: true,  // 平滑曲线
+            smooth: false,  // 平滑曲线
         }]
     };
 
-    // 监听柱状图的点击事件
+
+
+    var lineOption_2 = {
+        title: {
+            text: '每年发表论文的数量'
+        },
+        tooltip: {},
+        xAxis: {
+            type: 'category',
+            data: []
+        },
+        yAxis: {
+            type: 'value',
+            name: 'ranking',
+            inverse: true, // 排名越低，越靠近顶部
+            min: 1,
+            max: 11,
+            axisLabel: {
+                formatter: function (value) {
+                    return value === 11 ? '>10' : value;
+                }
+            }
+        },
+        grid: {
+            // 调整折线图布局，为时间轴留出空间
+            top: '20%',
+            left: '5%',
+            right: '5%',
+            bottom: '10%',
+            containLabel: true
+        },
+
+        series: [{
+            data: [],
+            type: 'line',
+            itemStyle: {
+                normal: {
+                    color: '#61a0a8',  // 更改线条颜色
+                }
+            },
+            lineStyle: {
+                width: 2,
+                type: 'solid'  // 实线类型
+            },
+            smooth: false,  // 平滑曲线
+        }]
+    };
+
     myChart.on('click', function (params) {
         if (params.componentType === 'series') {
             var word = params.name;
             var rankings = getRankings(word);
-            lineOption.title.text = 'The annual ranking of the word "' + word + '"'; // 更新折线图标题
+            lineOption.title.text = 'The annual ranking of the word "' + word + '" in title'; // 更新折线图标题
             lineOption.xAxis.data = rankings.map(function (item) { return item.year; });
             lineOption.series[0].data = rankings.map(function (item) { return item.rank; });
             barChart.setOption(lineOption, true); // 确保更新折线图
         }
     });
+
+    myChart_2.on('click', function (params_2) {
+        if (params_2.componentType === 'series') {
+            var word_2 = params_2.name;
+            var rankings_2 = getRankings_2(word_2);
+            lineOption_2.title.text = 'The annual ranking of the word "' + word_2 + '" in abstract'; // 更新折线图标题
+            lineOption_2.xAxis.data = rankings_2.map(function (item) { return item.year; });
+            lineOption_2.series[0].data = rankings_2.map(function (item) { return item.rank; });
+            barChart_2.setOption(lineOption_2, true); // 确保更新折线图
+        }
+    });
+
 
     var years = [1993, 1994, 1995, 1996, 1997, 1998, 1999, 2000, 2001, 2002, 2003, 2004, 2005, 2006, 2007, 2008, 2009, 2010, 2011, 2012, 2013, 2014, 2015, 2016, 2017, 2018, 2019];
     var data = [7, 16, 25, 29, 19, 18, 25, 90, 48, 120, 107, 133, 132, 157, 189, 317, 531, 742, 1194, 2756, 3297, 2724, 3604, 5339, 8073, 15551, 23080];
